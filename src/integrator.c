@@ -38,6 +38,7 @@
 #include "output.h"
 #include "integrator.h"
 #include "integrator_whfast.h"
+#include "integrator_jack.h"
 #include "integrator_ias15.h"
 #include "integrator_leapfrog.h"
 #include "integrator_sei.h"
@@ -64,6 +65,9 @@ void integrator_part1(void){
 		case WHFAST:
 			integrator_whfast_part1();
 			break;
+		case JACK:
+			integrator_jack_part1();
+			break;
 		case HYBRID:
 			integrator_hybrid_part1();
 			break;
@@ -88,6 +92,9 @@ void integrator_part2(void){
 			break;
 		case WHFAST:
 			integrator_whfast_part2();
+			break;
+		case JACK:
+			integrator_jack_part2();
 			break;
 		case HYBRID:
 			integrator_hybrid_part2();
@@ -114,6 +121,9 @@ void integrator_synchronize(void){
 		case WHFAST:
 			integrator_whfast_synchronize();
 			break;
+		case JACK:
+			integrator_jack_synchronize();
+			break;
 		case HYBRID:
 			integrator_hybrid_synchronize();
 			break;
@@ -131,6 +141,7 @@ void integrator_reset(void){
 	integrator_leapfrog_reset();
 	integrator_sei_reset();
 	integrator_whfast_reset();
+	integrator_jack_reset();
 	integrator_hybrid_reset();
 }
 

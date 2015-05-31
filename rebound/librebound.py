@@ -9,7 +9,7 @@ except:
     pass
 import types
         
-INTEGRATORS = {"ias15": 0, "whfast": 1, "sei": 2, "wh": 3, "leapfrog": 4, "hybrid": 5, "none": 6}
+INTEGRATORS = {"ias15": 0, "whfast": 1, "sei": 2, "wh": 3, "leapfrog": 4, "hybrid": 5, "none": 6, "jack":7}
 
 class ReboundModule(types.ModuleType):
     _pymodulespath = os.path.dirname(__file__)

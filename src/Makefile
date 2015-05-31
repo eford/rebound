@@ -81,6 +81,7 @@ all:
 	$(CC) $(OPT) $(PREDEF) gravity.c -c
 	$(CC) $(OPT) $(PREDEF) integrator.c -c
 	$(CC) $(OPT) $(PREDEF) integrator_whfast.c -c
+	$(CC) $(OPT) $(PREDEF) integrator_jack.c -c
 	$(CC) $(OPT) $(PREDEF) integrator_ias15.c -c
 	$(CC) $(OPT) $(PREDEF) integrator_sei.c -c
 	$(CC) $(OPT) $(PREDEF) integrator_wh.c -c
@@ -107,6 +108,7 @@ librebound: OPT+=-DCOLLISIONS_NONE -DLIBREBOUND
 librebound:
 	$(CC) $(OPT) -c -fPIC integrator_ias15.c
 	$(CC) $(OPT) -c -fPIC integrator_whfast.c
+	$(CC) $(OPT) -c -fPIC integrator_jack.c
 	$(CC) $(OPT) -c -fPIC integrator_leapfrog.c
 	$(CC) $(OPT) -c -fPIC integrator_hybrid.c
 	$(CC) $(OPT) -c -fPIC integrator_sei.c
@@ -118,7 +120,7 @@ librebound:
 	$(CC) $(OPT) -c -fPIC librebound.c
 	$(CC) $(OPT) -c -fPIC output.c
 	$(CC) $(OPT) -c -fPIC input.c
-	$(CC) $(OPT) -shared -o librebound.so particle.o tools.o integrator.o integrator_ias15.o integrator_whfast.o integrator_leapfrog.o integrator_sei.o integrator_hybrid.o integrator_wh.o gravity_direct.o librebound.o input.o output.o
+	$(CC) $(OPT) -shared -o librebound.so particle.o tools.o integrator.o integrator_ias15.o integrator_whfast.o integrator_jack.o integrator_leapfrog.o integrator_sei.o integrator_hybrid.o integrator_wh.o gravity_direct.o librebound.o input.o output.o
 	
 	@echo ""        
 	@echo "The shared library librebound.so has been created successfully."
