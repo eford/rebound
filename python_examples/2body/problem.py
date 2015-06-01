@@ -29,10 +29,10 @@ def simulation(par):
     return [float(rebound.iter)/rebound.t*dt, np.fabs((Ef-Ei)/Ei)+1e-16, rebound.timing/rebound.t*dt*1e6/2., (Ef-Ei)/Ei]
 
 
-N = 25
+N = 55
 dts = np.linspace(-3.1,-0.1,N)
 e0s = np.linspace(0,-8,N)
-integrators= ["wh","whfast-nocor"]
+integrators= ["jack","whfast-nocor"]
 
 niter = []
 energyerror = []

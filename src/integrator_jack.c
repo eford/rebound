@@ -40,12 +40,15 @@
 
 void  solve_universal_kepler(double r0, double beta, double eta, double zeta, double h, double *G1, double *G2)
 {
-  double b;
+ double b;
   double x, g1, g2, g3;
   double a, s2, c2, g, xnew, x1;
+  double err;
 
   b = sqrt(beta);
-  xnew = h/r0;
+  xnew = (h/r0)*(1.0 - 0.5*eta*h/(r0*r0));
+  err = 1.e-9*xnew;
+  int NN = 1000;
   do {
     x = xnew;
     a = b*x/2.0;
@@ -56,7 +59,13 @@ void  solve_universal_kepler(double r0, double beta, double eta, double zeta, do
     g3 = (x - g1)/beta;
     g = eta*g1 + zeta*g2;
     xnew = (x*g - eta*g2 - zeta*g3 + h)/(r0 + g);
-  } while(fabs(x - xnew) > 1.e-9);
+    NN--;
+  } while(fabs(x - xnew) > err && NN>0);
+  if (NN<=0){
+    *G1 = 2.;
+    *G2 = 2.;
+    return;
+  }
   
   x = xnew;
   a = b*x/2.0;
@@ -67,6 +76,7 @@ void  solve_universal_kepler(double r0, double beta, double eta, double zeta, do
 
   *G1 = g1;
   *G2 = g2;
+
 }
 
 void integrator_jack_part1(void){
@@ -80,8 +90,8 @@ void integrator_jack_part1(void){
   eta = particles[1].x*particles[1].vx + particles[1].y*particles[1].vy + particles[1].z*particles[1].vz;
   beta = 2.0*kc/r0 - v2;
   if(beta<0.0) {
-    printf("hyperbolic orbit %lf\n", beta);
-    exit(-1);
+	  usleep(5);
+    return;
   }
   zeta = kc - beta*r0;
 
@@ -103,15 +113,13 @@ void integrator_jack_part1(void){
   particles[1].vy = (fdot*yo + gdot*particles[1].vy);
   particles[1].vz = (fdot*zo + gdot*particles[1].vz);
 
-  return(0);
-}
-
 }
 
 void integrator_jack_synchronize(void){
 }
 
 void integrator_jack_part2(void){
+	t+=dt;
 }
 	
 
