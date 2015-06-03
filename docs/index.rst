@@ -11,6 +11,9 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+.. automodule:: rebound
+   :members: Particle
+   :undoc-members:
 
 
 Indices and tables
