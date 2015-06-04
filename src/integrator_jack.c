@@ -38,70 +38,32 @@
 #include "integrator.h"
 #include "integrator_jack.h"
 
-void  solve_universal_kepler(double r0, double beta, double eta, double zeta, double h, double *G1, double *G2)
-{
- double b;
-  double x, g1, g2, g3;
-  double a, s2, c2, g, xnew, x1;
-  double err;
-
-  b = sqrt(beta);
-  xnew = (h/r0)*(1.0 - 0.5*eta*h/(r0*r0));
-  err = 1.e-9*xnew;
-  int NN = 1000;
-  do {
-    x = xnew;
-    a = b*x/2.0;
-    s2 = sin(a);
-    c2 = cos(a);
-    g1 = 2.0*s2*c2/b;
-    g2 = 2.0*s2*s2/beta;
-    g3 = (x - g1)/beta;
-    g = eta*g1 + zeta*g2;
-    xnew = (x*g - eta*g2 - zeta*g3 + h)/(r0 + g);
-    NN--;
-  } while(fabs(x - xnew) > err && NN>0);
-  if (NN<=0){
-    *G1 = 2.;
-    *G2 = 2.;
-    return;
-  }
-  
-  x = xnew;
-  a = b*x/2.0;
-  s2 = sin(a);
-  c2 = cos(a);
-  g1 = 2.0*s2*c2/b;
-  g2 = 2.0*s2*s2/beta;
-
-  *G1 = g1;
-  *G2 = g2;
-
-}
 
 void integrator_jack_part1(void){
   double kc = G;
+  
   double r0, r, v2, eta, beta, zeta;
+  double b, c2, s2;
   double f, g, fdot, gdot;
   double X, G1, G2, G3;
+  double a, n, x, esinE, ecosE;
+  int flag;
 
   r0 = sqrt(particles[1].x*particles[1].x + particles[1].y*particles[1].y + particles[1].z*particles[1].z);
   v2 = particles[1].vx*particles[1].vx + particles[1].vy*particles[1].vy + particles[1].vz*particles[1].vz;
   eta = particles[1].x*particles[1].vx + particles[1].y*particles[1].vy + particles[1].z*particles[1].vz;
   beta = 2.0*kc/r0 - v2;
-  if(beta<0.0) {
-	  usleep(5);
-    return;
-  }
   zeta = kc - beta*r0;
 
-  solve_universal_kepler(r0, beta, eta, zeta, dt, &G1, &G2);
+  // THIS NEEDS TO BE COMPLETED....
 
+  a = kc/beta;
   r = r0 + eta*G1 + zeta*G2;
   f = 1.0 - kc*G2/r0;
   g = eta*G2 + r0*G1;
-  fdot = -kc*G1/(r0*r);
+  fdot = -(a/r)*(b/r0)*2.0*s2*c2;
   gdot = 1.0 - kc*G2/r;
+
 
   double xo = particles[1].x;
   double yo = particles[1].y;
