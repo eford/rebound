@@ -445,7 +445,7 @@ int reb_collision_resolve_hardsphere(struct reb_simulation* const r, struct reb_
 
 int reb_collision_resolve_merge(struct reb_simulation* const r, struct reb_collision c){
 	if (r->particles[c.p1].lastcollision==r->t || r->particles[c.p2].lastcollision==r->t) return 0;
-
+    printf("# Merging particles %d and %d at time %f\n",c.p1,c.p2,r->t);
     // Every collision will cause two callbacks (with p1/p2 interchanged).
     // Always remove particle with larger index and merge into lower index particle.
     // This will keep N_active meaningful even after mergers.

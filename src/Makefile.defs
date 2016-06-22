@@ -2,6 +2,10 @@ OPT+= -std=c99 -Wpointer-arith -D_GNU_SOURCE -O3 -march=native
 ifndef OS
 	OS=$(shell uname)
 endif
+ifeq ($(OS), Windows_NT)
+	OPT+= -Wall -g
+	LIB+= -lm -lrt
+endif
 ifeq ($(OS), Linux)
 	OPT+= -Wall -g
 	LIB+= -lm -lrt
