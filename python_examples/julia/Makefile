@@ -16,7 +16,7 @@ HEADERS=$(SOURCES:.c=.h)
 librebounduser.so: $(OBJECTS)
 	@echo ""        
 	@echo "Linking share library $@ ..."
-	$(CC) $(OPT) -shared $(OBJECTS) $(LIB) -o $@ 
+	$(CC) $(OPT) -shared $(OBJECTS) ../../src/tools.o $(LIB) -o $@ 
 
 #rebound: librebound librebounduser.so problem.c
 #	@echo ""

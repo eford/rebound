@@ -50,8 +50,8 @@ void activate_migration_forces(struct reb_simulation* r) {
 void deactivate_migration_forces(struct reb_simulation* r) {
 	r->additional_forces = NULL;
 	r->force_is_velocity_dependent = 0;
-	free(tau_a);
-	free(tau_e);
+	if(tau_a!=NULL) { free(tau_a); }
+	if(tau_e!=NULL) { free(tau_e); }
 }
 
 void set_tau_a(int id, double val) {

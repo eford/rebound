@@ -1,4 +1,3 @@
-const LIB_REBOUND_USER = Libdl.find_library(["librebounduser.so"],["."])
 include("init_cond.jl")
 
 using PyCall
@@ -14,9 +13,9 @@ for i in 1:length(alist)
    M = 2pi*rand()
    sim[:add](m=mulist[i],a=alist[i],e=e,inc=inc,omega=omega,Omega=Omega,M=M)
 end
-
 sim[:move_to_com]()
-tend = 10*2pi
+
+tend = 100*2pi
 
 @time sim[:integrate](tend)
 

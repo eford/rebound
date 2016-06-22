@@ -29,36 +29,19 @@ ccall((:set_heartbeat,LIB_REBOUND_USER),Void,(Ptr{Void},Ptr{Void},),psim,heartbe
 tend = 100*2pi
 @time sim[:integrate](tend)
 
-
-#=
-	if(reb_output_check(r, 200.*M_PI)){
-		reb_output_timing(r, tmax);
-	}
-	if(reb_output_check(r, 400.*M_PI)){
-		reb_integrator_synchronize(r);
-		reb_output_orbits(r,"orbits.txt");
-		reb_move_to_com(r); 
-	}
-=#
-
-#=
 p = convert(Ptr{Void},ctypes.addressof(sim))
 ccall((:activate_migration_forces,LIB_REBOUND_USER),Void,(Ptr{Void},),p)
-
-ccall((:set_tau_a,LIB_REBOUND_USER),Void,(Cint,Cdouble,),2,0.001)
-
-ccall((:get_tau_a,LIB_REBOUND_USER),Cdouble,(Cint,),1)
-=#
-
-#=
-
-pysim = convert(PyObject,sim)
- 
-function migration_forces_julia(sim::PyObject)
-  ccall((:migration_forces,LIB_REBOUND_USER),Void,(Ptr{Void},),sim)
+numpl = sim[:N]
+for i in 2:numpl
+  ccall((:set_tau_a,LIB_REBOUND_USER),Void,(Cint,Cdouble,),i,0.0)
+  ccall((:set_tau_e,LIB_REBOUND_USER),Void,(Cint,Cdouble,),i,0.0)
 end
- 
-migration_forces_c_ptr = cfunction(migration_forces_julia,Void,(Ptr{UInt8},))
-=#
+
+  ccall((:set_tau_a,LIB_REBOUND_USER),Void,(Cint,Cdouble,),5,2000.0)
+  ccall((:set_tau_e,LIB_REBOUND_USER),Void,(Cint,Cdouble,),5,200.0)
+
+tend = 10000*2pi
+@time sim[:integrate](tend)
+
 
 
