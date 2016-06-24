@@ -23,7 +23,7 @@ sim[:integrator] = REB_INTEGRATOR["IAS15"]
 sim[:collision] = REB_COLLISION["DIRECT"]
 librebound = Libdl.dlopen(LIB_REBOUND)
 cptr_collision_merge = Libdl.dlsym(librebound,:reb_collision_resolve_merge)
-#sim[:collisions_resolve] = cptr_collision_merge 
+#sim[:collisions_resolve] = cptr_collision_merge # Any reason not to do this directly?'
 ccall((:reb_set_collision_resolve,LIB_REBOUND),Void,(Ptr{Void},Ptr{Void},),ptr_sim,cptr_collision_merge)
 
 # Turn on forces to induce a migration

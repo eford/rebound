@@ -25,7 +25,7 @@ sim[:integrator] = REB_INTEGRATOR["IAS15"]  # Set integrator (to default)
 sim[:collision] = REB_COLLISION["DIRECT"]   # Set collision detection
 librebound = Libdl.dlopen(LIB_REBOUND)      # Open librebound 
 cptr_collision_merge = Libdl.dlsym(librebound,:reb_collision_resolve_merge) # Get C pointer to function to merge bodies
-#sim[:collisions_resolve] = cptr_collision_merge 
+#sim[:collisions_resolve] = cptr_collision_merge  # Any reason not to do this directly?
 ccall((:reb_set_collision_resolve,LIB_REBOUND),Void,(Ptr{Void},Ptr{Void},),ptr_sim,cptr_collision_merge) # Set simulation to use reb_collision_resolve_merge  
 
 # Run integration (and time how long it takes)
