@@ -1,12 +1,9 @@
-const mass_mars = 6.39e23
-const mass_earth = 5.972e24
-const mass_sun = 1.989e30
+include("rebound_constants.jl")
 
 function draw_embryo_mu()
- mu_mars = mass_mars/mass_sun
- mu_min = 0.5*mu_mars
- mu_max = 2.0*mu_mars
- mu_min+(mu_max-mu_min)*rand()
+  mu_min = 0.5*mass_mars
+  mu_max = 2.0*mass_mars
+  mu_min+(mu_max-mu_min)*rand()
 end
 
 function generate_embryo_mu_list(mtot::Real)
@@ -30,8 +27,8 @@ function generate_embryo_draw_semimajor_axis_list(alpha_surface_density::Real, l
 end
 
 using Base.Test
-#function run_tests()
-  target_mass = 10.* mass_earth/mass_sun
+function run_tests()
+  target_mass = 10.* mass_earth
   mulist = generate_embryo_mu_list(target_mass)
   @test_approx_eq sum(mulist) target_mass
 
@@ -41,7 +38,7 @@ using Base.Test
   alist = generate_embryo_draw_semimajor_axis_list(alpha,min_a,max_a,n=length(mulist))
   @test issorted(alist)
   @test min_a <= minimum(alist) <= maximum(alist) <= max_a
-#end
+end
 
-#run_tests()
+run_tests()
 

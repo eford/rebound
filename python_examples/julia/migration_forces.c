@@ -29,7 +29,6 @@ void set_tau_a(int id, double val);
 void set_tau_e(int id, double val);
 double get_tau_a(int id);
 double get_tau_e(int id);
-void print_args(int id, double val);
 
 
 void set_heartbeat(struct reb_simulation* r, void* func_ptr) {
@@ -55,21 +54,17 @@ void deactivate_migration_forces(struct reb_simulation* r) {
 }
 
 void set_tau_a(int id, double val) {
-	tau_a[id] = val;	
+	tau_a[id-1] = val;	
 }
 void set_tau_e(int id, double val) {
-	tau_e[id] = val;	
-}
-
-void print_args(int id, double val) {
-  printf("id=%d val=%g\n",id,val);	
+	tau_e[id-1] = val;	
 }
 
 double get_tau_a(int id) {
-	return tau_a[id];
+	return tau_a[id-1];
 }
 double get_tau_e(int id) {
-	return tau_e[id];
+	return tau_e[id-1];
 }
 
 void migration_forces(struct reb_simulation* r){
